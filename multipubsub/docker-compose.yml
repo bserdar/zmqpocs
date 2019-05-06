@@ -1,0 +1,90 @@
+version: '3'
+services:
+  s1:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    environment:
+      ENDPOINT: "tcp://*:4444"
+      SERVERID: s1
+    networks:
+      net:
+        ipv4_address: 172.16.242.2
+    hostname: s1
+  s2:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    environment:
+      ENDPOINT: "tcp://*:4444"
+      SERVERID: s2
+    networks:
+      net:
+        ipv4_address: 172.16.242.3
+    hostname: s2
+  s3:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    environment:
+      ENDPOINT: "tcp://*:4444"
+      SERVERID: s3
+    networks:
+      net:
+        ipv4_address: 172.16.242.4
+    hostname: s3
+
+  c1:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    environment:
+      CLIENTID: c1
+      SERVERS: "s1=tcp://172.16.242.2:4444,s2=tcp://172.16.242.3:4444,s3=tcp://172.16.242.4:4444"
+    networks:
+      net:
+        ipv4_address: 172.16.242.11
+    hostname: c1
+  c2:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    environment:
+      CLIENTID: c2
+      SERVERS: "s1=tcp://172.16.242.2:4444,s2=tcp://172.16.242.3:4444,s3=tcp://172.16.242.4:4444"
+    networks:
+      net:
+        ipv4_address: 172.16.242.12
+    hostname: c2
+  c3:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    environment:
+      CLIENTID: c3
+      SERVERS: "s1=tcp://172.16.242.2:4444,s2=tcp://172.16.242.3:4444,s3=tcp://172.16.242.4:4444"
+    networks:
+      net:
+        ipv4_address: 172.16.242.13
+    hostname: c3
+  c4:
+    build:
+      context: client
+      dockerfile: Dockerfile
+    environment:
+      CLIENTID: c4
+      SERVERS: "s1=tcp://172.16.242.2:4444,s2=tcp://172.16.242.3:4444,s3=tcp://172.16.242.4:4444"
+    networks:
+      net:
+        ipv4_address: 172.16.242.14
+    hostname: c4
+   
+networks:
+  net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        -
+          subnet: 172.16.242.0/24
+          
